@@ -1,11 +1,7 @@
 package ArbolBinario;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class BinaryTree {
-    Node root;
-
+    private Node root;
     public void insertNode(int id) {
         Node newNode = new Node();
         newNode.setId(id);
@@ -34,86 +30,45 @@ public class BinaryTree {
             }
         }
     }
+    
 
-    public Node search(int id) {
-        return searchRecursive(root, id);
+    public void preOrder() {
+        preOrderRecursive(root);
+        System.out.println();
     }
 
-    private Node searchRecursive(Node current, int id) {
-        if (current == null || current.getId() == id) {
-            return current;
-        }
-        if (id < current.getId()) {
-            return searchRecursive(current.getLeft(), id);
-        }
-        return searchRecursive(current.getRight(), id);
-    }
-
-    public void preOrderTraversal() {
-        preOrderTraversalRecursive(root);
-    }
-
-    private void preOrderTraversalRecursive(Node node) {
+    private void preOrderRecursive(Node node) {
         if (node != null) {
             System.out.print(node.getId() + " ");
-            preOrderTraversalRecursive(node.getLeft());
-            preOrderTraversalRecursive(node.getRight());
+            preOrderRecursive(node.getLeft());
+            preOrderRecursive(node.getRight());
         }
     }
 
-    public void inOrderTraversal() {
-        inOrderTraversalRecursive(root);
+    public void inOrder() {
+        inOrderRecursive(root);
+        System.out.println();
     }
 
-    private void inOrderTraversalRecursive(Node node) {
+    private void inOrderRecursive(Node node) {
         if (node != null) {
-            preOrderTraversalRecursive(node.getLeft());
+            preOrderRecursive(node.getLeft());
             System.out.print(node.getId() + " ");
-            preOrderTraversalRecursive(node.getRight());
+            preOrderRecursive(node.getRight());
         }
     }
 
-    public void postOrderTraversal() {
-        postOrderTraversalRecursive(root);
+    public void postOrder() {
+        postOrderRecursive(root);
+        System.out.println();
     }
 
-    private void postOrderTraversalRecursive(Node node) {
+    private void postOrderRecursive(Node node) {
         if (node != null) {
-            preOrderTraversalRecursive(node.getLeft());
-            preOrderTraversalRecursive(node.getRight());
+            preOrderRecursive(node.getLeft());
+            preOrderRecursive(node.getRight());
             System.out.print(node.getId() + " ");
         }
     }
 
-    public void deleteNode(int id) {
-        root = deleteNodeRecursive(root, id);
-    }
-
-    private Node deleteNodeRecursive(Node current, int id) {
-        if (current == null) {
-            return current;
-        }
-        if (id < current.getId()) {
-            current.setLeft(deleteNodeRecursive(current.getLeft(), id));
-        } else if (id > current.getId()) {
-            current.setRight(deleteNodeRecursive(current.getRight(), id));
-        } else {
-            if (current.getLeft() == null) {
-                return current.getRight();
-            } else if (current.getRight() == null) {
-                return current.getLeft();
-            }
-            Node temp = minValueNode(current.getRight());
-            current.setId(temp.getId());
-            current.setRight(deleteNodeRecursive(current.getRight(), temp.getId()));
-        }
-        return current;
-    }
-    private Node minValueNode(Node node) {
-        Node current = node;
-        while (current.getLeft() != null) {
-            current = current.getLeft();
-        }
-        return current;
-    }
 }
