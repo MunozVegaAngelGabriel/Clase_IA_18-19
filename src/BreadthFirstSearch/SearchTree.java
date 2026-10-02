@@ -62,3 +62,4 @@ public class SearchTree {
         System.out.println("Tiempo de ejecucion (ns): " + endTime);
     }
 }
+
