@@ -1,4 +1,4 @@
-package BreadthFirstSearch;
+package Classes;
 
 public class Node {
     private String state;

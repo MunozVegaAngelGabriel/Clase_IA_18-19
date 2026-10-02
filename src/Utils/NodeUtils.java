@@ -1,4 +1,6 @@
-package BreadthFirstSearch;
+package Utils;
+
+import Classes.Node;
 
 import java.util.ArrayList;
 import java.util.List;

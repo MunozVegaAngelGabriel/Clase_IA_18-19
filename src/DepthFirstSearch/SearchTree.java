@@ -1,12 +1,11 @@
-package BreadthFirstSearch;
-
+package DepthFirstSearch;
 
 import Classes.Node;
 import Utils.NodeUtils;
 
 import java.util.*;
 
-import static Utils.NodeUtils.generateChildren;
+import static Utils.NodeUtils.formatState;
 
 public class SearchTree {
     private Node root;
@@ -18,7 +17,6 @@ public class SearchTree {
     private Set<String> visited;
     private long startTime, endTime;
 
-
     public SearchTree(String initialState, String goalState){
         this.initialState = initialState;
         this.goalState = goalState;
@@ -26,14 +24,14 @@ public class SearchTree {
         this.visited = new HashSet<>();
         this.path = new Stack<>();
     }
-    
-    public void breadthFirstSearch(){
+
+    public void DepthFirstSearch(){
         startTime = System.nanoTime();
         Node currentNode = root;
-        Queue<Node> queue = new LinkedList<>();
-        queue.add(currentNode);
-        while (!queue.isEmpty()){
-            currentNode = queue.poll();
+        Stack<Node> stack = new Stack<>();
+        stack.push(currentNode);
+        while (!stack.isEmpty()){
+            currentNode = stack.pop();
             visited.add(currentNode.getState());
             if (currentNode.getState().equals(goalState)){
                 goalNode = currentNode;
@@ -44,19 +42,29 @@ public class SearchTree {
                 }
                 return;
             }
-            List<Node> children = generateChildren(currentNode);
+            List<Node> children = NodeUtils.generateChildren(currentNode);
             for (Node child : children){
                 if (!visited.contains(child.getState())){
                     visited.add(child.getState());
-                    queue.add(child);
+                    stack.push(child);
                     nodesGenerated++;
                 }
             }
         }
     }
+
     public void printPath(){
-        while (!path.isEmpty()){
-            System.out.println(NodeUtils.formatState(path.pop()));
+        if (goalNode != null) {
+            Node currentNode = goalNode;
+            while (currentNode != null) {
+                path.push(currentNode.getState());
+                currentNode = currentNode.getParent();
+            }
+            while (!path.isEmpty()){
+                System.out.println(formatState(path.pop()));
+            }
+        } else {
+            System.out.println("No path found.");
         }
         System.out.println("Nodes generated: " + nodesGenerated);
         System.out.println("Tiempo de ejecucion (ns): " + endTime);
